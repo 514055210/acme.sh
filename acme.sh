@@ -1486,9 +1486,9 @@ _inithttp() {
     #for BusyBox v1.25.0
     if _contains "$($_ACME_WGET 2>&1)" "-U STR"; then
       _debug "BusyBox wget"
-      _ACME_WGET="$_ACME_WGET -U \"$USER_AGENT\" "
+      _ACME_WGET="$_ACME_WGET -U \"${USER_AGENT:-$DEFAULT_USER_AGENT}\" "
     else
-      _ACME_WGET="$_ACME_WGET --user-agent=\"$USER_AGENT\" "
+      _ACME_WGET="$_ACME_WGET --user-agent=\"${USER_AGENT:-$DEFAULT_USER_AGENT}\" "
     fi
   fi
 
@@ -1524,9 +1524,9 @@ _post() {
     fi
     _debug "_CURL" "$_CURL"
     if [ "$needbase64" ]; then
-      response="$($_CURL --user-agent "$USER_AGENT" -X $httpmethod -H "$_H1" -H "$_H2" -H "$_H3" -H "$_H4" -H "$_H5" --data "$body" "$url" | _base64)"
+      response="$($_CURL --user-agent "${USER_AGENT:-$DEFAULT_USER_AGENT}" -X $httpmethod -H "$_H1" -H "$_H2" -H "$_H3" -H "$_H4" -H "$_H5" --data "$body" "$url" | _base64)"
     else
-      response="$($_CURL --user-agent "$USER_AGENT" -X $httpmethod -H "$_H1" -H "$_H2" -H "$_H3" -H "$_H4" -H "$_H5" --data "$body" "$url")"
+      response="$($_CURL --user-agent "${USER_AGENT:-$DEFAULT_USER_AGENT}" -X $httpmethod -H "$_H1" -H "$_H2" -H "$_H3" -H "$_H4" -H "$_H5" --data "$body" "$url")"
     fi
     _ret="$?"
     if [ "$_ret" != "0" ]; then
@@ -1594,9 +1594,9 @@ _get() {
     fi
     _debug "_CURL" "$_CURL"
     if [ "$onlyheader" ]; then
-      $_CURL -I --user-agent "$USER_AGENT" -H "$_H1" -H "$_H2" -H "$_H3" -H "$_H4" -H "$_H5" "$url"
+      $_CURL -I --user-agent "${USER_AGENT:-$DEFAULT_USER_AGENT}" -H "$_H1" -H "$_H2" -H "$_H3" -H "$_H4" -H "$_H5" "$url"
     else
-      $_CURL --user-agent "$USER_AGENT" -H "$_H1" -H "$_H2" -H "$_H3" -H "$_H4" -H "$_H5" "$url"
+      $_CURL --user-agent "${USER_AGENT:-$DEFAULT_USER_AGENT}" -H "$_H1" -H "$_H2" -H "$_H3" -H "$_H4" -H "$_H5" "$url"
     fi
     ret=$?
     if [ "$ret" != "0" ]; then
