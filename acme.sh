@@ -1616,9 +1616,9 @@ _get() {
     fi
     _debug "_WGET" "$_WGET"
     if [ "$onlyheader" ]; then
-      $_WGET --header "$_H5" --header "$_H4" --header "$_H3" --header "$_H2" --header "$_H1" -S -O /dev/null "$url" 2>&1 | sed 's/^[ ]*//g'
+      (eval "$_WGET --header \"$_H5\" --header \"$_H4\" --header \"$_H3\" --header \"$_H2\" --header \"$_H1\" -S -O /dev/null \"$url\" 2>&1") | sed 's/^[ ]*//g'
     else
-      $_WGET --header "$_H5" --header "$_H4" --header "$_H3" --header "$_H2" --header "$_H1" -O - "$url"
+      eval "$_WGET --header \"$_H5\" --header \"$_H4\" --header \"$_H3\" --header \"$_H2\" --header \"$_H1\" -O - \"$url\""
     fi
     ret=$?
     if [ "$ret" = "8" ]; then
